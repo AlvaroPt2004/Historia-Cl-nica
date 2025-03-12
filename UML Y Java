@@ -1,0 +1,388 @@
+Paciente:
+
+Atributos: CI, nombre, apellidos, fecha de nacimiento, sexo, peso, estatura, dirección.
+
+Relaciones: Un paciente puede tener múltiples imágenes y enfermedades.
+
+Imagen:
+
+Atributos: nombre del archivo, fecha de toma, tipo de imagen, comentarios del doctor.
+
+Relaciones: Una imagen pertenece a un paciente.
+
+Enfermedad:
+
+Atributos: nombre de la enfermedad, fecha, tratamiento indicado.
+
+Relaciones: Una enfermedad pertenece a un paciente.
+
+
+
+
+
+
+
+
+
+
+ Diagrama de Clases UML
+
++-----------------------------------+
+|           Paciente                |
++-----------------------------------+
+| - CI: String                      |
+| - nombre: String                  |
+| - apellidos: String               |
+| - fechaNacimiento: Date           |
+| - sexo: String                    |
+| - peso: double                    |
+| - estatura: double                |
+| - direccion: String               |
+| - imagenes: List<Imagen>          |
+| - enfermedades: List<Enfermedad>  |
++-----------------------------------+
+| + buscarPaciente(CI: String): Paciente|
+| + obtenerPacientesAltos(): List<String>|
+| + contarMujeresConDengue(): int   |
+| + ordenarPorNombre(): List<Paciente>|
+| + ordenarPorPeso(): List<Paciente> |
+| + añadirPaciente(p: Paciente): void|
+| + eliminarPaciente(CI: String): void|
+| + modificarPaciente(p: Paciente): void|
++-----------------------------------+
+
+
+
+
+
+
+
+
+
+
+
++-----------------------------------+
+|            Imagen                 |
++-----------------------------------+
+| - nombreArchivo: String           |
+| - fechaToma: Date                 |
+| - tipoImagen: String              |
+| - comentarios: String             |
++-----------------------------------+
+| + añadirImagen(i: Imagen): void   |
+| + eliminarImagen(nombre: String): void|
+| + modificarImagen(i: Imagen): void|
++-----------------------------------+
+
+
+
+
+
+
+
++-----------------------------------+
+|          Enfermedad               |
++-----------------------------------+
+| - nombre: String                  |
+| - fecha: Date                     |
+| - tratamiento: String             |
++-----------------------------------+
+| + añadirEnfermedad(e: Enfermedad): void|
+| + eliminarEnfermedad(nombre: String): void|
+| + modificarEnfermedad(e: Enfermedad): void|
++-----------------------------------+
+
+
+
+
+
+Relaciones entre Clases
+Paciente - Imagen:
+
+Un paciente puede tener múltiples imágenes (relación uno a muchos).
+
+Paciente - Enfermedad:
+
+Un paciente puede tener múltiples enfermedades (relación uno a muchos).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*Implementación en Java
+
+
+Clase Paciente
+
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+
+public class Paciente {
+    private String CI;
+    private String nombre;
+    private String apellidos;
+    private Date fechaNacimiento;
+    private String sexo;
+    private double peso;
+    private double estatura;
+    private String direccion;
+    private List<Imagen> imagenes;
+    private List<Enfermedad> enfermedades;
+
+    public Paciente(String CI, String nombre, String apellidos, Date fechaNacimiento, String sexo, double peso, double estatura, String direccion) {
+        this.CI = CI;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.fechaNacimiento = fechaNacimiento;
+        this.sexo = sexo;
+        this.peso = peso;
+        this.estatura = estatura;
+        this.direccion = direccion;
+        this.imagenes = new ArrayList<>();
+        this.enfermedades = new ArrayList<>();
+    }
+
+    // Getters y Setters
+    public String getCI() {
+        return CI;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public double getEstatura() {
+        return estatura;
+    }
+
+    public List<Imagen> getImagenes() {
+        return imagenes;
+    }
+
+    public List<Enfermedad> getEnfermedades() {
+        return enfermedades;
+    }
+
+    // Métodos para añadir, eliminar y modificar
+    public void añadirImagen(Imagen imagen) {
+        imagenes.add(imagen);
+    }
+
+    public void eliminarImagen(String nombreArchivo) {
+        imagenes.removeIf(imagen -> imagen.getNombreArchivo().equals(nombreArchivo));
+    }
+
+    public void añadirEnfermedad(Enfermedad enfermedad) {
+        enfermedades.add(enfermedad);
+    }
+
+    public void eliminarEnfermedad(String nombreEnfermedad) {
+        enfermedades.removeIf(enfermedad -> enfermedad.getNombre().equals(nombreEnfermedad));
+    }
+}
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  Clase Imagen
+
+import java.util.Date;
+
+public class Imagen {
+    private String nombreArchivo;
+    private Date fechaToma;
+    private String tipoImagen;
+    private String comentarios;
+
+    public Imagen(String nombreArchivo, Date fechaToma, String tipoImagen, String comentarios) {
+        this.nombreArchivo = nombreArchivo;
+        this.fechaToma = fechaToma;
+        this.tipoImagen = tipoImagen;
+        this.comentarios = comentarios;
+    }
+
+    // Getters y Setters
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
+
+    public Date getFechaToma() {
+        return fechaToma;
+    }
+
+    public String getTipoImagen() {
+        return tipoImagen;
+    }
+
+    public String getComentarios() {
+        return comentarios;
+    }
+}
+
+
+     
+
+
+
+
+
+
+
+
+ Clase Enfermedad
+
+import java.util.Date;
+
+public class Enfermedad {
+    private String nombre;
+    private Date fecha;
+    private String tratamiento;
+
+    public Enfermedad(String nombre, Date fecha, String tratamiento) {
+        this.nombre = nombre;
+        this.fecha = fecha;
+        this.tratamiento = tratamiento;
+    }
+
+    // Getters y Setters
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public String getTratamiento() {
+        return tratamiento;
+    }
+}
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+ Clase Hospital
+
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+public class Hospital {
+    private List<Paciente> pacientes;
+
+    public Hospital() {
+        this.pacientes = new ArrayList<>();
+    }
+
+    // Añadir paciente
+    public void añadirPaciente(Paciente paciente) {
+        pacientes.add(paciente);
+    }
+
+    // Buscar paciente por CI
+    public Paciente buscarPaciente(String CI) {
+        for (Paciente paciente : pacientes) {
+            if (paciente.getCI().equals(CI)) {
+                return paciente;
+            }
+        }
+        return null;
+    }
+
+    // Obtener pacientes con mayor estatura
+    public List<String> obtenerPacientesAltos() {
+        List<String> CIs = new ArrayList<>();
+        double maxEstatura = 0;
+
+        for (Paciente paciente : pacientes) {
+            if (paciente.getEstatura() > maxEstatura) {
+                maxEstatura = paciente.getEstatura();
+                CIs.clear();
+                CIs.add(paciente.getCI());
+            } else if (paciente.getEstatura() == maxEstatura) {
+                CIs.add(paciente.getCI());
+            }
+        }
+        return CIs;
+    }
+
+    // Contar mujeres con dengue
+    public int contarMujeresConDengue() {
+        int count = 0;
+        for (Paciente paciente : pacientes) {
+            if (paciente.getSexo().equals("Femenino")) {
+                for (Enfermedad enfermedad : paciente.getEnfermedades()) {
+                    if (enfermedad.getNombre().equals("Dengue")) {
+                        count++;
+                        break;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    // Ordenar pacientes por nombre
+    public List<Paciente> ordenarPorNombre() {
+        List<Paciente> ordenados = new ArrayList<>(pacientes);
+        ordenados.sort(Comparator.comparing(Paciente::getNombre));
+        return ordenados;
+    }
+
+    // Ordenar pacientes por peso
+    public List<Paciente> ordenarPorPeso() {
+        List<Paciente> ordenados = new ArrayList<>(pacientes);
+        ordenados.sort((p1, p2) -> Double.compare(p2.getPeso(), p1.getPeso()));
+        return ordenados;
+    }
+}
